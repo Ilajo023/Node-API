@@ -8,9 +8,7 @@ const create_category = async (req, res) => {
       description: req.body.categoryDescription,
     });
     const result = await newCategory.save();
-    res.json(result);
-    res.status(201);
-  ;
+    res.status(201).json(result);
   } catch (err) {
     console.log({ message: err });
   }
@@ -20,8 +18,7 @@ const create_category = async (req, res) => {
 const get_all_categories = async (req, res) => {
   try {
     const allCategories = await Category.find().exec();
-    res.json(allCategories);
-    res.status(200);
+    res.status(200).json(allCategories);
   } catch (err) {
     console.log({ message: err });
   }
@@ -32,8 +29,7 @@ const get_specific_category = async (req, res) => {
   try {
     const id = req.params.id;
     const specificCategory = await Category.findById(id).exec();
-    res.json(specificCategory)
-    res.status(200);
+    res.status(200).json(specificCategory);
   } catch (err) {
     console.log({ message: err });
   }

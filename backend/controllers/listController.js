@@ -9,7 +9,7 @@ const create_list = async (req, res) => {
       shop: req.body.listShop,
     });
     await newList.save();
-    res.json('List created');
+    res.status(201).json('List created');
   } catch (err) {
     console.log({ message: err });
   }
@@ -20,8 +20,7 @@ const get_specific_list = async (req, res) => {
   try {
     const id = req.params.id;
     const specificList = await List.findById(id).exec();
-    res.json(specificList);
-    res.status(200);
+    res.status(200).json(specificList);
   } catch (err) {
     console.log({ message: err });
   }
@@ -30,8 +29,7 @@ const get_specific_list = async (req, res) => {
 const get_lists = async (req, res) => {
   try {
     const getAllLists = await List.find().exec();
-    res.json(getAllLists);
-    res.status(200);
+    res.status(200).json(getAllLists);
   } catch (err) {
     console.log({ message: err });
   }
@@ -44,12 +42,11 @@ const update_list = async (req, res) => {
     const shop = req.body.listShop;
 
     const update = await List.findById(id).exec();
-    list.listName = name;
-    list.listShop = shop;
+    update.name = name;
+    update.shop = shop;
 
     const updated = await update.save();
-    res.json(updated);
-    res.status(201);
+    res.status(201).json(updated);
   } catch (err) {
     console.log({ message: err });
   }
@@ -60,24 +57,25 @@ const delete_list = async (req, res) => {
   try {
     const id = req.params.id;
     await List.findByIdAndRemove(id).exec();
-    res.json('List deleted');
-    res.status(200);
+    res.status(200).json('List deleted');
   } catch (err) {
     console.log({ message: err });
   }
 };
 
-
 //create list item
 const create_list_item = async (req, res) => {
   try {
     const id = req.params.id;
-    const item = req.body;
+    const item = {
+      name: req.body.itemName,
+      category: req.body.itemCategory,
+      quantity: req.body.itemQuantity,
+    };
     const list = await List.findById(id).exec();
     list.items.push(item);
     const result = await list.save();
-    res.json(result);
-    res.status(201);
+    res.status(201).json(result);
   } catch (err) {
     console.log({ message: err });
   }
@@ -88,8 +86,7 @@ const get_list_items = async (req, res) => {
   try {
     const id = req.params.id;
     const getItems = await List.findById(id).populate('items.category').exec();
-    res.json(getItems);
-    res.status(200);
+    res.status(200).json(getItems);
   } catch (err) {
     console.log({ message: err });
   }
@@ -113,23 +110,22 @@ const get_specific_item = async (req, res) => {
 
 //update list item
 const update_list_item = async (req, res) => {
-  try{
-  const listId = req.params.listId;
-  const itemId = req.params.itemId;
-  const name = req.body.name;
-  const category = req.body.category;
-  const quantity = req.body.quantity;
+  try {
+    const listId = req.params.listId;
+    const itemId = req.params.itemId;
+    const name = req.body.itemName;
+    const category = req.body.itemCategory;
+    const quantity = req.body.itemQuantity;
 
-  const specificList = await List.findById(listId).exec();
-  let item = specificList.items.id(itemId);
-  item.name = name;
-  item.category = category;
-  item.quantity = quantity;
-  const updated = await specificList.save();
-  res.json(updated);
-  res.status(201);
-  }catch(err) {
-    console.log({message: err});
+    const specificList = await List.findById(listId).exec();
+    let item = specificList.items.id(itemId);
+    item.name = name;
+    item.category = category;
+    item.quantity = quantity;
+    const updated = await specificList.save();
+    res.status(201).json(updated);
+  } catch (err) {
+    console.log({ message: err });
   }
 };
 //delete list item
@@ -138,14 +134,13 @@ const delete_list_item = async (req, res) => {
     const listId = req.params.listId;
     const itemId = req.params.itemId;
 
-    const updateList =  await List.findById(listId).exec();
-    const updatedListItem = await updateList.items.filter((item) => {
+    const updateList = await List.findById(listId).exec();
+    const updatedListItem = await updateList.items.filter(item => {
       item._id.toString() !== itemId.toString();
     });
     updateList.items = updatedListItem;
     const result = await updateList.save();
-    res.json(result);
-    res.status(200)
+    res.status(200).json(result);
   } catch (err) {
     console.log({ message: err });
   }

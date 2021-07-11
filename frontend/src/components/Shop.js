@@ -1,24 +1,15 @@
 import React from 'react';
 
-//show shop
-
 const Shop = props => {
-	return (
-		<div>
-			<tr>
-				<td>
-					<span>{props.shop.name}</span>
-				</td>
-				<td>
-					<span>{props.shop.address}</span>
-				</td>
-				<td>
-					<span>{props.shop.city}</span>
-				</td>
-				<td></td>
-			</tr>
-		</div>
-	);
+  return (
+    <div>
+      <div className="list">
+        <li className="list-item">{props.shop.name}</li>
+        <li className="list-item">{props.shop.address}</li>
+        <li className="list-item">{props.shop.city}</li>
+      </div>
+    </div>
+  );
 };
 
 export default Shop;

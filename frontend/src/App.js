@@ -11,24 +11,26 @@ import NewShop from './components/NewShop';
 import Shop from './components/Shop';
 import Shops from './components/Shops';
 import Categories from './components/Categories';
-import CreateList from './components/CreateList';
+import Category from './components/Category';
+import AllCategories from './components/AllCategories';
 
 function App() {
-	return (
-		<Router>
-			<div className="container">
-				<Nav />
-				<br />
-				<Route path="/lists" exact component={Lists} />
-				<Route path="/shops" exact component={Shops} />
-				<Route path="/categories" exact component={Categories} />
-				<header>
-					<h1>Shopping plan</h1>
-				</header>
-				<Route path="/" exact component={CreateListForm} />
-			</div>
-		</Router>
-	);
+  return (
+    <Router>
+      <div className="container">
+        <Nav />
+        <header>
+          <h1>Shopping plan</h1>
+        </header>
+        <br />
+        <Route path="/lists" exact component={Lists} />
+        <Route path="/shops" exact component={Shops} />
+        <Route path="/categories" exact component={Categories} />
+        <Route path="/list/:id/edit" component={EditList} />
+        <Route path="/" exact component={CreateListForm} />
+      </div>
+    </Router>
+  );
 }
 
 export default App;

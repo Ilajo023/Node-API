@@ -1,11 +1,67 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import NewShop from './NewShop';
+import api from '../axios';
 
 const Shops = () => {
-	return (
-		<div>
-			<h1>Shops component</h1>
-		</div>
-	);
+  const shopNameRef = useRef('');
+  const shopAddressRef = useRef('');
+  const shopCityRef = useRef('');
+
+  const submitHandler = e => {
+    e.preventDefault();
+    const newShop = {
+      shopName: shopNameRef.current.value,
+      shopAddress: shopAddressRef.current.value,
+      shopCity: shopCityRef.current.value,
+    };
+
+    const createShop = () => {
+      api.post('/shop', newShop);
+    };
+
+    createShop();
+  };
+
+  return (
+    <div className="container w-50">
+      <form onSubmit={submitHandler}>
+        <input
+          className="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          ref={shopNameRef}
+          type="text"
+        />
+        <label className="form-label">shop name</label>
+
+        <input
+          className="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          ref={shopAddressRef}
+          type="text"
+        />
+        <label for="exampleInputEmail1" className="form-label">
+          shop address
+        </label>
+        <input
+          className="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          ref={shopCityRef}
+          type="text"
+        />
+        <label for="exampleInputEmail1" className="form-label">
+          shop city
+        </label>
+
+        <button className="btn-danger d-block mx-auto" type="submit">
+          Add
+        </button>
+        <NewShop />
+      </form>
+    </div>
+  );
 };
 
 export default Shops;
