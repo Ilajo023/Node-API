@@ -1,28 +1,32 @@
 import React from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import api from '../axios';
-
+import ItemModal from './ItemModal';
 const List = props => {
   const { id } = useParams();
 
   const deleteList = async () => {
-    try {
-      await api.delete(`/lists/${props.list._id}`);
-    } catch (error) {
-      console.log(error);
-    }
+    props.onDeleteList(props.list._id);
   };
 
   return (
-    <div className="list">
-      <li className="list-item">{props.list.name}</li>
-      <NavLink to={`/list/${props.list._id}/edit`} className="complete-btn">
-        <i className="fas fa-edit"></i>
-      </NavLink>
-      <button onClick={deleteList} className="delete-btn">
-        <i className="fas fa-trash"></i>
-      </button>
-    </div>
+    <li className="list-group-item d-flex justify-content-between">
+      <span>{props.list.name}</span>
+      <div>
+        <NavLink
+          to={`/list/${props.list._id}/edit`}
+          className="btn btn-warning mx-1"
+        >
+          <i className="fas fa-edit"></i>
+        </NavLink>
+        <button onClick={deleteList} className="btn btn-danger mx-1">
+          <i className="fas fa-trash"></i>
+        </button>
+        <NavLink className="btn btn-dark mx-1" to={`list/${props.list._id}`}>
+          <i className="fas fa-eye"></i>
+        </NavLink>
+      </div>
+    </li>
   );
 };
 

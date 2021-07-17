@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import NewShop from './NewShop';
 import api from '../axios';
 
@@ -6,6 +6,7 @@ const Shops = () => {
   const shopNameRef = useRef('');
   const shopAddressRef = useRef('');
   const shopCityRef = useRef('');
+  const [isAdded, setAdded] = useState(false);
 
   const submitHandler = e => {
     e.preventDefault();
@@ -18,12 +19,16 @@ const Shops = () => {
     const createShop = () => {
       api.post('/shop', newShop);
     };
-
     createShop();
+    setAdded(true);
+  };
+
+  const setIsAddedHandler = () => {
+    setAdded(false);
   };
 
   return (
-    <div className="container w-50">
+    <div className="container w-50 ">
       <form onSubmit={submitHandler}>
         <input
           className="form-control"
@@ -58,7 +63,7 @@ const Shops = () => {
         <button className="btn-danger d-block mx-auto" type="submit">
           Add
         </button>
-        <NewShop />
+        <NewShop isAdded={isAdded} eventUpdate={setIsAddedHandler} />
       </form>
     </div>
   );

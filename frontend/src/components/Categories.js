@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import AllCategories from './AllCategories';
 import api from '../axios';
 
 const Categories = () => {
   const categoryNameRef = useRef('');
   const categoryDescriptionRef = useRef('');
+  const [isAdded, setAdded] = useState(false);
 
   const submitHandler = e => {
     e.preventDefault();
@@ -13,12 +14,17 @@ const Categories = () => {
       categoryDescription: categoryDescriptionRef.current.value,
     };
 
-    const newCategory = () => {
-      api.post('/category', createCategory);
+    const newCategory = async () => {
+      await api.post('/category', createCategory);
     };
-
     newCategory();
+    setAdded(true);
   };
+
+  const setIsAddedHandler = () => {
+    setAdded(false);
+  };
+
   return (
     <div className="container w-50">
       <form onSubmit={submitHandler}>
@@ -45,7 +51,7 @@ const Categories = () => {
         <button className="btn-danger d-block mx-auto" type="submit">
           Add
         </button>
-        <AllCategories />
+        <AllCategories isAdded={isAdded} eventUpdate={setIsAddedHandler} />
       </form>
     </div>
   );

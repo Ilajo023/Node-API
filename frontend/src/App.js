@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './UI/Nav';
 import CreateListForm from './components/CreateListForm.js';
 import Lists from './components/Lists';
 import EditList from './components/EditList';
-import List from './components/List.js';
-import NewShop from './components/NewShop';
-import Shop from './components/Shop';
 import Shops from './components/Shops';
 import Categories from './components/Categories';
-import Category from './components/Category';
-import AllCategories from './components/AllCategories';
+import ListDetails from './components/ListDetails';
 
 function App() {
   return (
@@ -28,6 +24,7 @@ function App() {
         <Route path="/categories" exact component={Categories} />
         <Route path="/list/:id/edit" component={EditList} />
         <Route path="/" exact component={CreateListForm} />
+        <Route path="/list/:id" exact component={ListDetails}></Route>
       </div>
     </Router>
   );

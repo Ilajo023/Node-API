@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router';
+
 import api from '../axios';
 
 const EditList = props => {
@@ -10,46 +12,53 @@ const EditList = props => {
   const [shops, setShops] = useState([]);
   const listNameRef = useRef('');
   const shopNameRef = useRef('');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const shops = await api.get('/shops');
-        const result = shops;
-        setShops(result.data);
-        const list = await api.get(`/list/${id}`);
-        const response = await list.data;
-        setList(response);
-        setLoaded(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
+  const history = useHistory();
+
+  const fetchData = useCallback(async () => {
+    try {
+      const shops = await api.get('/shops');
+      const result = shops;
+      setShops(result.data);
+      const list = await api.get(`/list/${id}`);
+      const response = await list.data;
+      setList(response);
+      setLoaded(false);
+    } catch (error) {
+      console.log(error);
+    }
   }, [id]);
 
-  const submitHandler = e => {
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const submitHandler = async e => {
     e.preventDefault();
     const updateList = {
       listName: listNameRef.current.value,
       listShop: shopNameRef.current.value,
     };
-    api.put(`/list/${list._id}`, updateList);
+    await api.put(`/list/${list._id}`, updateList);
+    history.push('/lists');
   };
+
   return (
     <div>
       {!loaded && (
         <form onSubmit={submitHandler}>
-          <input
-            ref={listNameRef}
-            type="text"
-            className="todo-input"
-            placeholder="List name"
-            defaultValue={list.name}
-          />
-          <button className="btn-primary" type="submit">
-            <i className="fas fa-plus-circle"></i>
-          </button>
-          <div className="select">
+          <div className="d-flex my-5">
+            <input
+              ref={listNameRef}
+              type="text"
+              className="todo-input"
+              placeholder="List name"
+              defaultValue={list.name}
+            />
+            <button className="btn-primary" type="submit">
+              <i className="fas fa-plus-circle"></i>
+            </button>
+          </div>
+          <div>
             <select
               defaultValue={list.shop}
               ref={shopNameRef}

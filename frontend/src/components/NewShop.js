@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Shop from './Shop';
 import api from '../axios';
 
-const NewShop = () => {
+const NewShop = props => {
   const [shops, setShops] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const getShops = await api.get('./shops');
-        const result = getShops;
-        setShops(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
+  const fetchData = useCallback(async () => {
+    try {
+      const getShops = await api.get('./shops');
+      const result = getShops;
+      setShops(result.data);
+      props.eventUpdate();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData, props.isAdded]);
 
   return (
     <div className="my-4 p-4">
