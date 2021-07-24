@@ -13,7 +13,7 @@ const ListDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const list = await api.get(`/list/${id}`);
+        const list = await api.get(`/lists/${id}`);
         const result = list;
         setList(result.data);
         const items = await api.get(`/lists/${id}/items`);
@@ -28,7 +28,7 @@ const ListDetails = () => {
   }, [id]);
 
   const deleteItemHandler = itemId => {
-    api.delete(`/lists/${list._id}/items/${itemId}`);
+    api.delete(`/lists/${list.id}/items/${itemId}`);
     console.log(itemId);
   };
 
@@ -48,7 +48,7 @@ const ListDetails = () => {
               <ul className="list-group w-50">
                 {list.items.map(item => (
                   <Item
-                    key={item._id}
+                    key={item.id}
                     item={item}
                     onDeleteItem={deleteItemHandler}
                   />

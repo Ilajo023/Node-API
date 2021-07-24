@@ -7,14 +7,14 @@ const NewShop = props => {
 
   const fetchData = useCallback(async () => {
     try {
-      const getShops = await api.get('./shops');
+      const getShops = await api.get('/shops');
       const result = getShops;
       setShops(result.data);
       props.eventUpdate();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     fetchData();
@@ -23,7 +23,7 @@ const NewShop = props => {
   return (
     <div className="my-4 p-4">
       {shops.map(shop => (
-        <Shop key={shop._id} shop={shop} />
+        <Shop key={shop.id} shop={shop} />
       ))}
     </div>
   );

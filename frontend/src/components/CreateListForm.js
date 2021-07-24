@@ -29,11 +29,11 @@ const CreateListForm = () => {
       listShop: shopNameRef.current.value,
     };
     const newList = async () => {
-      await api.post('/list', createList);
+      await api.post('/lists', createList);
+      history.push('/lists');
     };
 
     newList();
-    history.push('/lists');
   };
 
   return (
@@ -56,7 +56,7 @@ const CreateListForm = () => {
           <label>Select shop</label>
           <select ref={shopNameRef} name="filter" className="form-select">
             {shops.map(shop => (
-              <option key={shop._id} value={shop._id}>
+              <option key={shop.id} value={shop.id}>
                 {shop.name}
               </option>
             ))}

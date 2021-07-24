@@ -15,7 +15,7 @@ const Categories = () => {
     };
 
     const newCategory = async () => {
-      await api.post('/category', createCategory);
+      await api.post('/categories', createCategory);
     };
     newCategory();
     setAdded(true);

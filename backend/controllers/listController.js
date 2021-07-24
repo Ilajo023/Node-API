@@ -136,7 +136,7 @@ const delete_list_item = async (req, res) => {
 
     const updateList = await List.findById(listId).exec();
     const updatedListItem = await updateList.items.filter(item => {
-      item._id.toString() !== itemId.toString();
+      return item._id.toString() !== itemId.toString();
     });
     updateList.items = updatedListItem;
     const result = await updateList.save();

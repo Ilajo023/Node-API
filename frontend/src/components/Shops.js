@@ -16,8 +16,8 @@ const Shops = () => {
       shopCity: shopCityRef.current.value,
     };
 
-    const createShop = () => {
-      api.post('/shop', newShop);
+    const createShop = async () => {
+      await api.post('/shops', newShop);
     };
     createShop();
     setAdded(true);

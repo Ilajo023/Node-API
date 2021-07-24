@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Item from './Item';
+
 import api from '../axios';
 
 const ItemModal = props => {
@@ -9,7 +9,6 @@ const ItemModal = props => {
   const itemNameRef = useRef('');
   const itemCategoryRef = useRef({});
   const itemQuantityRef = useRef('');
-  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const getItems = async () => {
@@ -38,7 +37,7 @@ const ItemModal = props => {
 
     const createItem = () => {
       try {
-        api.post(`/list/${props.list._id}/item`, item);
+        api.post(`/lists/${props.list.id}/items`, item);
       } catch (error) {
         console.log(error);
       }
@@ -95,7 +94,7 @@ const ItemModal = props => {
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         ref={itemQuantityRef}
-                        type="text"
+                        type="number"
                       />
                       <label>Select category</label>
                       <select
@@ -103,7 +102,7 @@ const ItemModal = props => {
                         ref={itemCategoryRef}
                       >
                         {categories.map(category => (
-                          <option key={category._id} value={category._id}>
+                          <option key={category.id} value={category.id}>
                             {category.name}
                           </option>
                         ))}

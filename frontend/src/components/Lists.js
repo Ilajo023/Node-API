@@ -32,7 +32,7 @@ const Lists = () => {
     <div className="container w-50">
       <ul className="list-group">
         {lists.map(list => (
-          <List key={list._id} list={list} onDeleteList={onDeleteListHandler} />
+          <List key={list.id} list={list} onDeleteList={onDeleteListHandler} />
         ))}
       </ul>
     </div>

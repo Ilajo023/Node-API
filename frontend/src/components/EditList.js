@@ -19,7 +19,7 @@ const EditList = props => {
       const shops = await api.get('/shops');
       const result = shops;
       setShops(result.data);
-      const list = await api.get(`/list/${id}`);
+      const list = await api.get(`/lists/${id}`);
       const response = await list.data;
       setList(response);
       setLoaded(false);
@@ -34,11 +34,13 @@ const EditList = props => {
 
   const submitHandler = async e => {
     e.preventDefault();
+    const listShop = shops.find(shop => shop.id === shopNameRef.current.value);
     const updateList = {
       listName: listNameRef.current.value,
-      listShop: shopNameRef.current.value,
+      listShop: listShop,
     };
-    await api.put(`/list/${list._id}`, updateList);
+    console.log(listShop);
+    await api.put(`/lists/${list.id}`, updateList);
     history.push('/lists');
   };
 
@@ -46,7 +48,7 @@ const EditList = props => {
     <div>
       {!loaded && (
         <form onSubmit={submitHandler}>
-          <div className="d-flex my-5">
+          <div className="d-flex my-3">
             <input
               ref={listNameRef}
               type="text"
@@ -66,7 +68,7 @@ const EditList = props => {
               className="filter-list"
             >
               {shops.map(shop => (
-                <option key={shop._id} value={shop._id}>
+                <option key={shop.id} value={shop.id}>
                   {shop.name}
                 </option>
               ))}
