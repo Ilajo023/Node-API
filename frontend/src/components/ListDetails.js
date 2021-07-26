@@ -29,7 +29,6 @@ const ListDetails = () => {
 
   const deleteItemHandler = itemId => {
     api.delete(`/lists/${list.id}/items/${itemId}`);
-    console.log(itemId);
   };
 
   return (
@@ -53,7 +52,6 @@ const ListDetails = () => {
                     onDeleteItem={deleteItemHandler}
                   />
                 ))}
-
                 <ItemModal list={list} />
               </ul>
             </li>

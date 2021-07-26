@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router';
 
 import api from '../axios';
 
@@ -9,6 +10,7 @@ const ItemModal = props => {
   const itemNameRef = useRef('');
   const itemCategoryRef = useRef({});
   const itemQuantityRef = useRef('');
+  const history = useHistory();
 
   useEffect(() => {
     const getItems = async () => {
@@ -24,7 +26,7 @@ const ItemModal = props => {
       }
     };
     getItems();
-  }, [props.list._id]);
+  }, [props.list.id]);
 
   const submitHandler = e => {
     e.preventDefault();
@@ -122,7 +124,7 @@ const ItemModal = props => {
                       type="button"
                       className="btn btn-primary"
                     >
-                      Save changes
+                      Add
                     </button>
                   </div>
                 </div>
